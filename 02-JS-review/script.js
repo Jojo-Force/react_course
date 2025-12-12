@@ -20,11 +20,7 @@ const data = [
       french: "Le Seigneur des anneaux",
     },
     reviews: {
-      goodreads: {
-        rating: 4.52,
-        ratingsCount: 630994,
-        reviewsCount: 13417,
-      },
+      goodreads: {},
       librarything: {
         rating: 4.53,
         ratingsCount: 47166,
@@ -142,8 +138,8 @@ function getBooks() {
 function getBook(id) {
   return data.find((d) => d.id === id);
 }
-
-const book = getBook(2);
+/*
+const book = getBook(1);
 book;
 // const title = book.title;
 // const author = book.author;
@@ -205,3 +201,44 @@ console.log(book.translations.spanish);
 
 const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
 spanishTranslation;
+
+console.log(book.reviews.librarything.reviewsCount);
+const countWrong = book.reviews.librarything.reviewsCount || "no data";
+countWrong;
+
+//falsy: null, undefined
+const count = book.reviews.librarything.reviewsCount ?? "no data";
+count;
+
+function getTotalReviewCount(book) {
+  const goodread = book.reviews.goodreads?.reviewsCount ?? 0;
+  const librarything = book.reviews.librarything?.reviewsCount;
+  goodread;
+  librarything;
+  return goodread + librarything;
+}
+
+console.log(getTotalReviewCount(book));*/
+
+function getTotalReviewCount(book) {
+  const goodread = book.reviews.goodreads?.reviewsCount ?? 0;
+  const librarything = book.reviews.librarything?.reviewsCount;
+  goodread;
+  librarything;
+  return goodread + librarything;
+}
+
+const books = getBooks();
+
+const x = [1, 2, 3, 4, 5].map((el) => el * 2);
+console.log(x);
+
+const titles = books.map((book) => book.title);
+console.log(titles);
+
+const essentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewsCount: getTotalReviewCount(book),
+}));
+essentialData;
