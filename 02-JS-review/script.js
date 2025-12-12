@@ -178,13 +178,30 @@ const pagesRange = pages > 1000 ? "over a thousand" : "less than 1000";
 pagesRange;
 console.log(`The book has ${pagesRange} pages`);
 
-function getYear(str) {
-  return str.split("-")[0];
-}
+// function getYear(str) {
+//   return str.split("-")[0];
+// }
 
 const getYear = (str) => str.split("-")[0];
 
-const getYear = (str) => {
-  return str.split("-")[0];
-};
+// const getYear = (str) => {
+//   return str.split("-")[0];
+// };
 console.log(getYear(publicationDate));
+
+console.log("yes");
+console.log(true && "Some string");
+console.log(false && "Some string");
+console.log(hasMovieAdaptation && "This book has a movie");
+
+//falsy: 0, '', null, undefined
+console.log("jojo" && "Some str");
+console.log(0 && "Some str1");
+
+console.log(true || "Some string");
+console.log(false || "Some string");
+
+console.log(book.translations.spanish);
+
+const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
+spanishTranslation;
