@@ -50,11 +50,11 @@ const pizzaData = [
 
 function App() {
   return (
-    <div className="container">
+    <>
       <Header />
       <Menu />
       <Footer />
-    </div>
+    </>
   );
 }
 
@@ -66,34 +66,42 @@ function Header() {
   );
 }
 
-function Pizza(props) {
-  console.log(props);
+function Pizza({ pizzaObj }) {
+  console.log(pizzaObj);
 
-  if (props.pizzaObj.soldOut) return null;
+  // if (pizzaObj.soldOut) return null;
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price + 3}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
 }
 
 function Menu() {
+  // const pizzas = [];
   const pizzas = pizzaData;
   const numPizzas = pizzas.length;
   return (
     <div className="menu">
       <h2>Out menu</h2>
+
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <React.Fragment key="123">
+          <p>
+            Authenitc Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all orginic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </React.Fragment>
       ) : (
         <p>We're still working on our menu</p>
       )}
@@ -113,12 +121,12 @@ function Menu() {
   );
 }
 
-function Order(props) {
+function Order({ closeHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We're open until until {props.closeHour}:00. Come vist us or order
-        online.
+        We're open from {openHour}:00 until {closeHour}:00. Come vist us or
+        order online.
       </p>
       <button className="btn">Order</button>
     </div>
@@ -127,7 +135,7 @@ function Order(props) {
 
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 20;
+  const openHour = 8;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
@@ -146,7 +154,7 @@ function Footer() {
     <footer className="footer">
       {/* {new Date().toLocaleDateString()} We're currently open */}
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
           We're happy to welcome you between {openHour}:00 - {closeHour}:00
