@@ -50,9 +50,10 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
-      <h1>Hello React!</h1>;
-      <Pizza />
+    <div className="container">
+      <Header />
+      <Menu />
+      <Footer />
     </div>
   );
 }
@@ -61,9 +62,46 @@ function Pizza() {
   return (
     <div>
       <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h2>Pizza</h2>
+      <h3>Pizza</h3>
       <p>Tomato, mozarella, spinach, and ricotta cheese</p>
     </div>
+  );
+}
+
+function Header() {
+  return (
+    <header className="header">
+      <h1>Fast React Pizza Co.</h1>
+    </header>
+  );
+}
+
+function Menu() {
+  return (
+    <div className="menu">
+      <h2>Out menu</h2>
+      <Pizza />
+      <Pizza />
+      <Pizza />
+    </div>
+  );
+}
+
+function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 8;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
+
+  // if (hour >= openHour && hour <= closeHour) alert("We're currently open!");
+  // else alert("Sorry we're closed");
+  // console.log(hour);
+
+  return (
+    <footer className="footer">
+      {new Date().toLocaleDateString()} We're currently open
+    </footer>
   );
 }
 
