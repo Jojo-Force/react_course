@@ -8,8 +8,55 @@ const messages = [
 export default function App() {
   return (
     <div>
-      <Steps />
-      <Steps />
+      <Counter />
+    </div>
+  );
+}
+
+function Counter() {
+  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const today = new Date();
+  const time = new Date(today);
+  time.setDate(today.getDate() + count);
+  const isoDate = time.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  console.log(isoDate);
+  function stepSub() {
+    setStep((s) => s - 1);
+  }
+
+  function stepAdd() {
+    setStep((s) => s + 1);
+  }
+
+  function countSub() {
+    setCount((s) => s - step);
+  }
+
+  function countAdd() {
+    setCount((s) => s + step);
+  }
+  return (
+    <div>
+      <div>
+        <button onClick={stepSub}>-</button>
+        <span>Step:{step}</span>
+        <button onClick={stepAdd}>+</button>
+      </div>
+      <div>
+        <button onClick={countSub}>-</button>
+        <span>Count:{count}</span>
+        <button onClick={countAdd}>+</button>
+      </div>
+      {count === 0 && <span>Today </span>}
+      {count > 0 && <span>{count} days from today </span>}
+      {count < 0 && <span>{-count} days ago was </span>}
+      <span>is {isoDate}</span>
     </div>
   );
 }
