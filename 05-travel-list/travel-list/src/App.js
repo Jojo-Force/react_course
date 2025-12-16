@@ -14,6 +14,7 @@ export default function App() {
       <PackingList />
       <Stats />
     </div>
+    // <Counter />
   );
 }
 
@@ -89,5 +90,68 @@ function Stats() {
     <footer className="stats">
       <em>🚩You have X items on your list, add you already packed X (X%)</em>
     </footer>
+  );
+}
+
+function Counter() {
+  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const today = new Date();
+  const time = new Date(today);
+  time.setDate(today.getDate() + count);
+  const isoDate = time.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  console.log(isoDate);
+
+  function countSub() {
+    setCount((s) => s - step);
+  }
+
+  function countAdd() {
+    setCount((s) => s + step);
+  }
+  return (
+    <>
+      <div>
+        <div>
+          <input
+            value={step}
+            type="range"
+            min="0"
+            max="10"
+            onChange={(e) => setStep(Number(e.target.value))}
+          />
+          {step}
+        </div>
+        <div>
+          <button onClick={countSub}>-</button>
+          {/* <span>Count:{count}</span> */}
+          <input
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          ></input>
+          <button onClick={countAdd}>+</button>
+        </div>
+        {count === 0 && <span>Today </span>}
+        {count > 0 && <span>{count} days from today </span>}
+        {count < 0 && <span>{-count} days ago was </span>}
+        <span>is {isoDate}</span>
+      </div>
+
+      {(count !== 0 || step != 1) && (
+        <button
+          onClick={() => {
+            setCount(0);
+            setStep(1);
+          }}
+        >
+          Reset
+        </button>
+      )}
+    </>
   );
 }
