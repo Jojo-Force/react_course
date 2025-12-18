@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 
 const messages = [
   "Learn React ⚛️",
@@ -6,115 +6,87 @@ const messages = [
   "Invest your new income 🤑",
 ];
 export default function App() {
+  const [yourService, setYourService] = useState(0);
+  const [friendService, setFriendService] = useState(0);
+  const [bill, setBill] = useState(0);
   return (
     <div>
-      <Steps />
-    </div>
-  );
-}
+      <Bill bill={bill} setBill={setBill} />
+      <Service service={yourService} setService={setYourService}>
+        How did you like the service?
+      </Service>
+      <Service service={friendService} setService={setFriendService}>
+        How did your friend like the service?
+      </Service>
 
-function Counter() {
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(0);
+      {bill > 0 && (
+        <Output
+          bill={bill}
+          yourService={yourService}
+          friendService={friendService}
+        />
+      )}
 
-  const today = new Date();
-  const time = new Date(today);
-  time.setDate(today.getDate() + count);
-  const isoDate = time.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-  console.log(isoDate);
-  function stepSub() {
-    setStep((s) => s - 1);
-  }
-
-  function stepAdd() {
-    setStep((s) => s + 1);
-  }
-
-  function countSub() {
-    setCount((s) => s - step);
-  }
-
-  function countAdd() {
-    setCount((s) => s + step);
-  }
-  return (
-    <div>
-      <div>
-        <button onClick={stepSub}>-</button>
-        <span>Step:{step}</span>
-        <button onClick={stepAdd}>+</button>
-      </div>
-      <div>
-        <button onClick={countSub}>-</button>
-        <span>Count:{count}</span>
-        <button onClick={countAdd}>+</button>
-      </div>
-      {count === 0 && <span>Today </span>}
-      {count > 0 && <span>{count} days from today </span>}
-      {count < 0 && <span>{-count} days ago was </span>}
-      <span>is {isoDate}</span>
-    </div>
-  );
-}
-
-function Steps() {
-  // const step = 1;
-  const [step, setStep] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
-  // console.log(arr);
-
-  // const step = 1;
-
-  function handlePrevious() {
-    if (step > 1) setStep((s) => s - 1);
-  }
-
-  function handleNext() {
-    if (step < 3) setStep((s) => s + 1);
-    //if (step < 3) setStep((s) => s + 1);
-  }
-
-  return (
-    <div>
-      <button className="close" onClick={() => setIsOpen((is) => !is)}>
-        &times;
-      </button>
-      {isOpen && (
-        <div className="steps">
-          <div className="numbers">
-            <div className={step >= 1 ? "active" : ""}>1</div>
-            <div className={step >= 2 ? "active" : ""}>2</div>
-            <div className={step >= 3 ? "active" : ""}>3</div>
-          </div>
-          <p className="message">
-            Step {step}: {messages[step - 1]}
-          </p>
-          <div className="buttons">
-            <Button bgColor="#7950f2" textColor="#fff" onClick={handlePrevious}>
-              <span>"🟡"</span>Previous
-            </Button>
-
-            <Button bgColor="#7950f2" textColor="#fff" onClick={handleNext}>
-              <span>"🟢"</span>Next
-            </Button>
-          </div>
-        </div>
+      {bill > 0 && (
+        <Button
+          setBill={setBill}
+          setFriendService={setFriendService}
+          setYourService={setYourService}
+        >
+          Reset
+        </Button>
       )}
     </div>
   );
 }
 
-function Button({ textColor, bgColor, onClick, children }) {
+function Bill({ bill, setBill }) {
   return (
-    <button
-      style={{ backgroundColor: bgColor, color: textColor }}
-      onClick={onClick}
-    >
-      {children}
-    </button>
+    <div>
+      <span>How musch was the bill?</span>
+      <input value={bill} onChange={(e) => setBill(e.target.value)}></input>
+    </div>
   );
+}
+
+function Service({ children, service, setService }) {
+  return (
+    <div>
+      <span>{children}</span>
+      <select
+        value={service}
+        onChange={(e) => {
+          setService(e.target.value);
+        }}
+      >
+        <option value={0}>Dissatisfied(0%)</option>
+        <option value={5}>It was okay(5%)</option>
+        <option value={10}>It was good(10%)</option>
+        <option value={20}>Absolutely amazing!(20%)</option>
+      </select>
+    </div>
+  );
+}
+
+function Output({ bill, yourService, friendService }) {
+  const tips =
+    (Number(bill) * ((Number(yourService) + Number(friendService)) / 2)) / 100;
+  const all = Number(bill) + Number(tips);
+  return (
+    <p>
+      <strong>
+        You pay ${all}(${bill}+ ${tips}tip)
+      </strong>
+    </p>
+  );
+}
+
+function Button({ children, setBill, setFriendService, setYourService }) {
+  function onClick() {
+    setBill(0);
+    setFriendService(0);
+    setYourService(0);
+  }
+
+  return <button onClick={onClick}>{children}</button>;
 }
