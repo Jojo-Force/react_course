@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import propTypes from "prop-types";
 
 const containerStyle = {
   display: "flex",
@@ -18,7 +17,7 @@ StarRating.propTypes = {
   color: PropTypes.string,
   size: PropTypes.number,
   messages: PropTypes.array,
-  className: propTypes.string,
+  className: PropTypes.string,
   onSetRating: PropTypes.func,
 };
 
