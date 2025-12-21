@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tempMovieData = [
   {
@@ -90,42 +90,9 @@ function Search() {
 function Main({ children }) {
   return <main className="main">{children}</main>;
 }
-
-const KEY = "8a0c11a1";
-
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const query = "interstellar";
-
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`
-        );
-
-        if (!res.ok)
-          throw new Error("Something went wrong with feching movies");
-
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
-
-        setMovies(data.Search);
-        // console.log(data.Search);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err.message);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
-  }, []);
 
   return (
     <>
@@ -135,9 +102,9 @@ export default function App() {
       </NavaBar>
 
       <Main>
-        {isLoading && <Loader />}
-        {!isLoading && !error && <MovieList movies={movies} />}
-        {error && <ErrorMessage message={error} />}
+        <Box>
+          <MovieList movies={movies} />
+        </Box>
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedMoviesList watched={watched} />
@@ -147,17 +114,6 @@ export default function App() {
   );
 }
 
-function Loader() {
-  return <p className="loader">Loading...</p>;
-}
-function ErrorMessage({ message }) {
-  return (
-    <p className="error">
-      <span>⛔️</span>
-      {message}
-    </p>
-  );
-}
 function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
