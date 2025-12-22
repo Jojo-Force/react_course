@@ -141,7 +141,7 @@ export default function App() {
           // console.log(data.Search);
           setError("");
         } catch (err) {
-          if (err.name !== "AbortEror") {
+          if (err.name !== "AbortError") {
             console.log(err.message);
             setError(err.message);
           }
