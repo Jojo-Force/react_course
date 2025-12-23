@@ -39,7 +39,7 @@ export function useMovies(query) {
         }
       }
 
-      if (query.length < 3) {
+      if (query && query.length < 3) {
         setMovies([]);
         setError("");
         return;
