@@ -38,3 +38,11 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+function CabinRow({ cabin }) {
+  const { name, maxCapacity, regularPrice, discount, image } = cabin;
+
+  return <TableRow role="row">{}</TableRow>;
+}
+
+export default CabinRow;
